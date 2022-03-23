@@ -17,12 +17,12 @@ class CreateChildUSTable extends Migration
             $table->id();
             $table->foreignId('parent_id')->nullable()->constrained('parent_u_s');
             $table->string('first_name');
-        $table->string('last_name');
-        $table->date('dob');
-        $table->string('email');
-        $table->integer('phone_number');
-        $table->string('gender');
-        $table->integer('limit');
+            $table->string('last_name');
+            $table->date('dob');
+            $table->string('email');
+            $table->integer('phone_number');
+            $table->string('gender');
+            $table->integer('limit');
             $table->timestamps();
         });
     }

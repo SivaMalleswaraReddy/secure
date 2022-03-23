@@ -17,3 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::resource('/parents',\App\Http\Controllers\ParentUController::class);
+Route::resource('/child',\App\Http\Controllers\ChildUController::class);

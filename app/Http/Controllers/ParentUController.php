@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreParentURequest;
 use App\Http\Requests\UpdateParentURequest;
 use App\Models\ParentU;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use phpDocumentor\Reflection\Types\String_;
 
-class p9ParentUController extends Controller
+class ParentUController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +18,8 @@ class p9ParentUController extends Controller
      */
     public function index()
     {
-        //
+        $comments = ParentU::all();
+        return response()->json($comments);
     }
 
     /**
@@ -35,7 +38,7 @@ class p9ParentUController extends Controller
      * @param  \App\Http\Requests\StoreParentURequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreParentURequest $request)
+    public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string',
@@ -49,7 +52,7 @@ class p9ParentUController extends Controller
 
         ]);
 
-        $newUser = new User([
+        $newUser = new ParentU([
             'name' => $request->get('name'),
             'phone_number' => $request->get('phone_number'),
             'address'=>$request->get('address'),
@@ -137,26 +140,26 @@ class p9ParentUController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\ParentU  $parentU
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(ParentU $parentU)
     {
-        $user = User::findOrFail($parentU);
+        $user = ParentU::findOrFail($parentU);
         $user->delete();
 
         return response()->json($user::all());
     }
     public function showlimit($pan){
 
-        $limit = DB::table('credits')->select('credit_limit')
-            ->where('pancard','=',$pan)->first();
+        $limit = DB::table('cards')->select('limit')
+            ->where('parent_id','=',$pan)->first();
 
         return response()->json($limit);
     }
     public function showbalance($user){
 
-        $balance = DB::table('transactions')->select('credit_balance')
-            ->where('user_id','=',$user)->first();
+        $balance = DB::table('transactions')->select('limit_balance')
+            ->where('card_number','=',$user)->first();
 
         return response()->json($balance);
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreChildURequest;
 use App\Http\Requests\UpdateChildURequest;
 use App\Models\ChildU;
+use App\Models\ParentU;
 
 class ChildUController extends Controller
 {
@@ -15,7 +16,8 @@ class ChildUController extends Controller
      */
     public function index()
     {
-        //
+        $comments = ChildU::all();
+        return response()->json($comments);
     }
 
     /**
@@ -36,7 +38,32 @@ class ChildUController extends Controller
      */
     public function store(StoreChildURequest $request)
     {
-        //
+        $request->validate([
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
+            'dob' => 'date',
+            'email' => 'required|string|unique:users|email',
+            'phone_number' => 'required|integer|digits_between:12,12',
+            'gender'=>'required|String',
+            'limit'=>'required|integer',
+            'parent_id'=>ParentU::all()->random()->pluck('id')
+
+        ]);
+
+        $newUser = new ChildU([
+            'first_name' => $request->get('name'),
+            'last_name' => $request->get('name'),
+            'dob'=>$request->get('dob'),
+            'email'=>$request->get('email'),
+            'phone_number' => $request->get('phone_number'),
+            'gender'=>$request->get('gender'),
+            'limit'=>$request->get('limit'),
+            'parent_id'=>$request->get('parent_id')
+        ]);
+
+        $newUser->save();
+
+        return response()->json($newUser);
     }
 
     /**
@@ -47,9 +74,9 @@ class ChildUController extends Controller
      */
     public function show(ChildU $childU)
     {
-        //
+        $user = ChildU::findOrFail($childU);
+        return response()->json($user);
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -70,9 +97,32 @@ class ChildUController extends Controller
      */
     public function update(UpdateChildURequest $request, ChildU $childU)
     {
-        //
-    }
+        $user = ChildU::findOrFail($childU);
 
+        $request->validate([
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
+            'dob' => 'date',
+            'email' => 'required|string|unique:users|email',
+            'phone_number' => 'required|integer|digits_between:12,12',
+            'gender'=>'required|String',
+            'limit'=>'required|integer',
+            'parent_id'=>'required|integer'
+        ]);
+
+
+        $user->first_name = $request->get('name');
+        $user->last_name = $request->get('name');
+        $user->dob = $request->get('dob');
+        $user->email = $request->get('email');
+        $user->phone_number= $request->get('phone_number');
+        $user->gender = $request->get('gender');
+        $user->limit = $request->get('limit');
+        $user->parent_id=$request->get('parent_id');
+        $user->save();
+
+        return response()->json($user);
+    }
     /**
      * Remove the specified resource from storage.
      *
@@ -81,6 +131,24 @@ class ChildUController extends Controller
      */
     public function destroy(ChildU $childU)
     {
-        //
+        $user = ChildU::findOrFail($childU);
+        $user->delete();
+
+        return response()->json($user::all());
     }
+    public function showlimit($pan){
+
+        $limit = DB::table('cards')->select('limit')
+            ->where('child_id','=',$pan)->first();
+
+        return response()->json($limit);
+    }
+    public function showbalance($user){
+
+        $balance = DB::table('transactions')->select('limit_balance')
+            ->where('card_number','=',$user)->first();
+
+        return response()->json($balance);
+    }
+
 }
