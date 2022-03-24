@@ -6,6 +6,7 @@ use App\Http\Requests\StoreChildURequest;
 use App\Http\Requests\UpdateChildURequest;
 use App\Models\ChildU;
 use App\Models\ParentU;
+use http\Env\Request;
 
 class ChildUController extends Controller
 {
@@ -36,7 +37,7 @@ class ChildUController extends Controller
      * @param  \App\Http\Requests\StoreChildURequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreChildURequest $request)
+    public function store(\Illuminate\Http\Request $request)
     {
         $request->validate([
             'first_name' => 'required|string',
@@ -51,8 +52,8 @@ class ChildUController extends Controller
         ]);
 
         $newUser = new ChildU([
-            'first_name' => $request->get('name'),
-            'last_name' => $request->get('name'),
+            'first_name' => $request->get('first_name'),
+            'last_name' => $request->get('last_name'),
             'dob'=>$request->get('dob'),
             'email'=>$request->get('email'),
             'phone_number' => $request->get('phone_number'),

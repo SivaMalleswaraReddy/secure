@@ -19,3 +19,4 @@ Route::get('/', function () {
 
   Route::post('/parent_u_s',[\App\Http\Controllers\ParentUController::class,'store']);
   Route::post('/child_u_s',[\App\Http\Controllers\ChildUController::class,'store']);
+Route::post('/card',[\App\Http\Controllers\CardController::class,'store']);
