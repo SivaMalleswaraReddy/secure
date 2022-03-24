@@ -18,6 +18,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('/parents',\App\Http\Controllers\ParentUController::class);
-Route::resource('/childs',\App\Http\Controllers\ChildUController::class);
+Route::resource('/parents',\App\Http\Controllers\ParentUserController::class);
+Route::resource('/childs',\App\Http\Controllers\ChildUserController::class);
 Route::resource('/cards',\App\Http\Controllers\CardController::class);
