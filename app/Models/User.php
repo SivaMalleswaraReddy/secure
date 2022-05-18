@@ -13,7 +13,7 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
-     * The attributes that are mass assignable.
+     *      * Here User will register using his name,e-mail and password for the application and these Columns are store in User database, also these columns are calls in UserController.
      *
      * @var array<int, string>
      */

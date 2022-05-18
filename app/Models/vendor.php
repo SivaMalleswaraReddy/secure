@@ -6,14 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 
-class admin extends Model
+class vendor extends Model
 {
-
     use HasFactory;
     /**
-     * Here Admin will register using his name,e-mail,phone_number,address,dob,joining_date and password for the application and these Columns are store in Admin database, also these columns are calls in AdminController.
+     * Here Vendor will Register using his name,email,phone_number,password, and address for the application and these Columns are store in vendor database, also these columns are calls in VendorController.
      *
-     * @param admin $fillable
+     * @param vendor $fillable
      * @return JsonResponse
      * @var array<int, string>
      */
@@ -23,7 +22,6 @@ class admin extends Model
         'phone_number',
         'password',
         'address',
-        'dob',
-        'joined_date'
+
     ];
 }

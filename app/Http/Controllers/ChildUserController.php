@@ -6,14 +6,16 @@ use App\Http\Requests\StoreChildURequest;
 use App\Http\Requests\UpdateChildURequest;
 use App\Models\ChildUser;
 use App\Models\ParentUser;
+use App\Models\Transaction;
 use http\Env\Request;
+use Illuminate\Support\Facades\DB;
 
 class ChildUserController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of All ChildUser Details.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -21,21 +23,21 @@ class ChildUserController extends Controller
         return response()->json($comments);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+//    /**
+//     * Show the form for creating a new resource.
+//     *
+//     * @return \Illuminate\Http\Response
+//     */
+//    public function create()
+//    {
+//        //
+//    }
 
     /**
-     * Store a newly created resource in storage.
+     * ParentUser can Store a newly ChildUser Register .
      *
      * @param  \App\Http\Requests\StoreChildURequest  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(\Illuminate\Http\Request $request)
     {
@@ -46,11 +48,9 @@ class ChildUserController extends Controller
             'email' => 'required|string|unique:users|email',
             'phone_number' => 'required|integer|digits_between:12,12',
             'gender'=>'required|String',
-            'limit'=>'required|integer',
-            'parent_id'=>ParentUser::all()->random()->pluck('id')
+            'monthly_limit'=>'required|integer',
 
         ]);
-
         $newUser = new ChildUser([
             'first_name' => $request->get('first_name'),
             'last_name' => $request->get('last_name'),
@@ -58,20 +58,20 @@ class ChildUserController extends Controller
             'email'=>$request->get('email'),
             'phone_number' => $request->get('phone_number'),
             'gender'=>$request->get('gender'),
-            'limit'=>$request->get('limit'),
-            'parent_id'=>$request->get('parent_id')
+            'monthly_limit'=>$request->get('monthly_limit'),
+            'is_approved'=>'not-approved',
+            'parent_id'=>ParentUser::all()->pluck('id')->random()
         ]);
-
         $newUser->save();
 
         return response()->json($newUser);
     }
 
     /**
-     * Display the specified resource.
+     * ChildUser can check is Details  .
      *
      * @param  \App\Models\ChildUser  $childU
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(ChildUser $childU)
     {
@@ -79,22 +79,37 @@ class ChildUserController extends Controller
         return response()->json($user);
     }
     /**
-     * Show the form for editing the specified resource.
+     * ChildUser can check is Transactions.
      *
-     * @param  \App\Models\ChildUser  $childU
-     * @return \Illuminate\Http\Response
+     * @param  \App\Models\ChildUser  $transaction
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function edit(ChildUser $childU)
+   public function showTransaction(transaction $transaction)
     {
-        //
+        $comments = Transaction::all();
+        return response()->json($comments);
     }
 
+
+
+
+//    /**
+//     * Show the form for editing the specified resource.
+//     *
+//     * @param  \App\Models\ChildUser  $childU
+//     * @return \Illuminate\Http\Response
+//     */
+//    public function edit(ChildUser $childU)
+//    {
+//        //
+//    }
+
     /**
-     * Update the specified resource in storage.
+     * Update the specified ChildUser Details in storage.
      *
      * @param  \App\Http\Requests\UpdateChildURequest  $request
      * @param  \App\Models\ChildUser  $childU
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(UpdateChildURequest $request, ChildUser $childU)
     {
@@ -107,7 +122,7 @@ class ChildUserController extends Controller
             'email' => 'required|string|unique:users|email',
             'phone_number' => 'required|integer|digits_between:12,12',
             'gender'=>'required|String',
-            'limit'=>'required|integer',
+            'monthly_limit'=>'required|integer',
             'parent_id'=>'required|integer'
         ]);
 
@@ -118,17 +133,17 @@ class ChildUserController extends Controller
         $user->email = $request->get('email');
         $user->phone_number= $request->get('phone_number');
         $user->gender = $request->get('gender');
-        $user->limit = $request->get('limit');
-        $user->parent_id=$request->get('parent_id');
+        $user->monthly_limit = $request->get('monthly_limit');
+        //$user->parent_id=$request->get('parent_id');
         $user->save();
 
         return response()->json($user);
     }
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified ChildUser from storage.
      *
      * @param  \App\Models\ChildUser  $childU
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(ChildUser $childU)
     {
@@ -137,19 +152,18 @@ class ChildUserController extends Controller
 
         return response()->json($user::all());
     }
-    public function showlimit($pan){
+    /**
+     * Admin can check the ChildUser requests.
+     *
+     * @param \App\Models\admin $users
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function childrequestStatus(){
+        $users = DB::table('child_users')->select('*')
+            ->where('is_approved' , '=' , 'not_approved')->get();
 
-        $limit = DB::table('cards')->select('limit')
-            ->where('child_id','=',$pan)->first();
 
-        return response()->json($limit);
-    }
-    public function showbalance($user){
-
-        $balance = DB::table('transactions')->select('limit_balance')
-            ->where('card_number','=',$user)->first();
-
-        return response()->json($balance);
+        return  response()->json($users);
     }
 
 }
