@@ -1,64 +1,80 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+ #Secure
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Secure is a Prepaid card (LSSG) website which is still Under Development By Artisan Team from mPokket
 
-## About Laravel
+## About 
+Prepaid credit card, a card that debits money from an associated account that ordinarily uses a signature rather than a PIN for verification. ... Stored-value card, a card that has a monetary value that is recorded as data on the card itself, and thus can be used without online access to an associated account.
+## Getting Started
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Dependencies
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Dependencies of our project will be
+* PHP Version 7.4 and greater
+* Laravel 8
+* CockroachDb
 
-## Learning Laravel
+### Testing tool
+* PostMan
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Installing
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Download the Composer from the package (once developement of app is done).
+* Modifications needed to be made to files.
+* After Running the composer package  the vendor file will auto generate the files
+* Based on the Auto-Generated file create a new file .env from .env example file
+* After creation of .env file update the any connections like database,Mailer etc  for your project.
 
-## Laravel Sponsors
+### Executing program
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+* How to run the program
+* Step-by-step bullets
+* Start The Cluster in cockroachDB
+* Start the first Node
+```
+cockroach start --certs-dir=certs --store=node1 --listen-addr=localhost:26257 --http-addr=localhost:8080 --join=localhost:26257,localhost:26258,localhost:26259 --background
+```
+* Start  the Second Node
+```
+cockroach start --certs-dir=certs --store=node2 --listen-addr=localhost:26258 --http-addr=localhost:8081 --join=localhost:26257,localhost:26258,localhost:26259 --background
+```
+* Start the Third Node
+```
+cockroach start --certs-dir=certs --store=node3 --listen-addr=localhost:26259 --http-addr=localhost:8082 --join=localhost:26257,localhost:26258,localhost:26259 --background
+```
+* Intialize the Cluster
+```
+cockroach init --certs-dir=certs --host=localhost:26257
+```
+* Start your Built-In SQL Client
+```
+cockroach sql --certs-dir=certs --host=localhost:26257
+```
+* Check Your Controllers if You Want To Make any Updates
+* Start the Server
+```
+php artisan serve
+```
+* Verify Your Routes through Postman.
+## Help
 
-### Premium Partners
+Our advise for common problems or issues.
+```
+Follow Basic Documentation of 
+ * Larvel
+ * Cockroach db
+ * PostMan
+```
+## Authors
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+* Siva mallesewara reddy Lomada(https://github.com/Artisans-LSSG/secure/tree/SivaMalleswaraReddy-secure)
+* Umme Salma)(https://github.com/ummesalma22/PrepaidCard)
+* Latha raj (https://github.com/Artisans-LSSG/secure/tree/Latha1)
+* Gurukiran Badiger (https://github.com/Artisans-LSSG/secure/tree/gurukiranbadiger-JWT-AUTH)
 
-## Contributing
+## Version History
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
+    * Initial Release
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
