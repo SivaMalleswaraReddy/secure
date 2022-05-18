@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Schema;
 class CreateTransactionsTable extends Migration
 {
     /**
+     * Here Transactions data store in Database, like id, card_number, vendor_name, transaction_amount, limit_balance, transaction_date,  transaction_status, and transaction_type.
      * Run the migrations.
      *
      * @return void
@@ -18,9 +19,11 @@ class CreateTransactionsTable extends Migration
             $table->integer('card_number');
             $table->foreign('card_number')->references('card_number')->on('cards');
             $table->string('vendor_name');
-            $table->integer('limit');
             $table->integer('transaction_amount');
             $table->integer('limit_balance');
+            $table->timestamp('transaction_date');
+            $table->boolean('transaction_status');
+            $table->string('transaction_type');
             $table->timestamps();
         });
     }

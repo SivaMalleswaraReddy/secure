@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Schema;
 class CreateCardsTable extends Migration
 {
     /**
+     * Here Cards data store in Database, like id, child_id, card_number, exp_date, cvv.
      * Run the migrations.
      *
      * @return void
@@ -15,7 +16,8 @@ class CreateCardsTable extends Migration
     {
         Schema::create('cards', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('child_id')->nullable()->constrained('child_u_s');
+            $table->integer('child_id')->unique();
+            $table->foreign('child_id')->references('id')->on('child_users');
             $table->integer('card_number')->unique();
             $table->date('exp_date');
             $table->integer('cvv');

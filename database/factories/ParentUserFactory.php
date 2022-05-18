@@ -4,10 +4,10 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class AdminFactory extends Factory
+class ParentUserFactory extends Factory
 {
     /**
-     * generate the random data we are using faker, using his name,e-mail,phone_number,address,dob,joining_date and password .
+     * Define the model's default state.
      *
      * @return array
      */
@@ -19,8 +19,9 @@ class AdminFactory extends Factory
             'phone_number'=>$this->faker->phoneNumber,
             'password'=>$this->faker->unique()->password,
             'address'=>$this->faker->address,
-            'dob'=>$this->faker->dateTime,
-            'joined_date'=>$this->faker->dateTime,
+            'pan_card' => $this->faker->regexify('/^([A-Z]){5}([0-9]){4}([A-Z]){1}?$/'),
+            'gender' => $this->faker->randomElement(['male', 'female']),
+            'is_approved'=>$this->faker->randomElements(['approved','not_approved']),
         ];
     }
 }

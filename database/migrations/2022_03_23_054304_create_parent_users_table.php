@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Schema;
 class CreateParentUsersTable extends Migration
 {
     /**
+     * Here ParentUser data store in Database, like id, name, email, phone_number, password, address, pan_card, gender, is_approved.
      * Run the migrations.
      *
      * @return void
@@ -17,11 +18,12 @@ class CreateParentUsersTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->integer('phone_number')->unique();
+            $table->string('phone_number')->unique();
             $table->string('password')->unique();
             $table->string('address');
-            $table->string('pancard')->unique();
+            $table->string('pan_card')->unique();
             $table->string('gender');
+            $table->string('is_approved');
             $table->rememberToken();
             $table->timestamps();
         });

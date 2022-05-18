@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Schema;
 class CreateUsersTable extends Migration
 {
     /**
+     * Here User data store in Database, like id, name, email, password.
      * Run the migrations.
      *
      * @return void

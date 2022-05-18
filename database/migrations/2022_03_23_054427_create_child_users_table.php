@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Schema;
 class CreateChildUsersTable extends Migration
 {
     /**
+     * Here ChildUser data store in Database, like id, first_name, last_name, email, phone_number, password,  dob, gender, monthly_limit, is_approved.
      * Run the migrations.
      *
      * @return void
@@ -20,9 +21,10 @@ class CreateChildUsersTable extends Migration
             $table->string('last_name');
             $table->date('dob');
             $table->string('email');
-            $table->integer('phone_number');
+            $table->string('phone_number');
             $table->string('gender');
-            $table->integer('limit');
+            $table->integer('monthly_limit');
+            $table->string('is_approved');
             $table->timestamps();
         });
     }
